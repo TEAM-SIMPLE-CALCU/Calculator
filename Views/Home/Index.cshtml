@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Calculator";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" asp-controller="Home" asp-action="Calculate">
+    <div style="width: 500px; margin: auto;">
+
+        <div style="display: flex;margin-bottom: 10px;">
+            <input type="text" id="num1" name="num1" required style="flex: 1;" readonly>
+            <input type="text" id="operation" name="operation" required style="width: 50px; text-align: center;" readonly>
+            <input type="text" id="num2" name="num2" required style="flex: 1;" readonly>
+            @if (ViewBag.Result != null)
+            {
+                <input type="text" id="displayResult" value="@ViewBag.Result" readonly>
+            }
+        </div>
+
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <button type="button" onclick="appendToInput('1')">1</button>
+            <button type="button" onclick="appendToInput('2')">2</button>
+            <button type="button" onclick="appendToInput('3')">3</button>
+            <button type="button" onclick="setOperation('+')">+</button>
+            <button type="button" onclick="appendToInput('4')">4</button>
+            <button type="button" onclick="appendToInput('5')">5</button>
+            <button type="button" onclick="appendToInput('6')">6</button>
+            <button type="button" onclick="setOperation('-')">-</button>
+            <button type="button" onclick="appendToInput('7')">7</button>
+            <button type="button" onclick="appendToInput('8')">8</button>
+            <button type="button" onclick="appendToInput('9')">9</button>
+            <button type="button" onclick="setOperation('*')">*</button>
+            <button type="button" onclick="appendToInput('0')">0</button>
+            <button type="button" onclick="appendToInput('.')">.</button>
+            <button type="button" onclick="clearInput()">C</button>
+            <button type="button" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    @if (ViewBag.Result != null)
+    {
+        <input type="hidden" name="result" value="@ViewBag.Result">
+    }
+
+</form>
+
+
+
+
+<script>
+    function appendToInput(value) {
+        var num1 = document.getElementById("num1");
+        var operation = document.getElementById("operation");
+        var num2 = document.getElementById("num2");
+
+        if (operation.value === "") {
+            num1.value += value;
+        } else {
+            num2.value += value;
+        }
+    }
+
+    function setOperation(value) {
+        var operation = document.getElementById("operation");
+        operation.value = value;
+    }
+
+    function clearInput() {
+        var num1 = document.getElementById("num1");
+        var operation = document.getElementById("operation");
+        var num2 = document.getElementById("num2");
+
+        num1.value = "";
+        operation.value = "";
+        num2.value = "";
+    }
+
+    function calculate() {
+        var form = document.querySelector('form');
+        form.submit();
+    }
+</script>
